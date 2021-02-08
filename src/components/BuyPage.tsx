@@ -34,30 +34,6 @@ const UpperbodyCard = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
 `
 
-const Lowerbody = styled.div`
-    margin: 0 auto;
-    max-width: 90vw;
-
-`
-const LowerbodyHorizontalButtons = styled.div`
-    display:flex;
-    
-
-`
-const LowerbodyHorizontalButton = styled.button`
-
-`
-
-const LowerbodyVerticalButtons = styled.div`
-    transform: rotate(90deg);
-    display:flex;
-`
-const LowerbodyVerticalButton = styled.button`
-    width: 50px;
-
-
-`
-
 function BuyOptionsPage({data, isMobile, myData, ...props}:{props:Object, isMobile:boolean, data:Array<Object>, myData:Array<Object>}) {
     const [scrollToValue, setScrollToValue] = useState(0)
     
@@ -81,10 +57,6 @@ function BuyOptionsPage({data, isMobile, myData, ...props}:{props:Object, isMobi
           }
     }
 
-    for (const [k, v] of Object.entries(currentThing)) {
-        subValues.push(k)
-        name += v  // Type is any
-      }
 
     return <Container>
         <Breadcrumbs>
@@ -95,7 +67,7 @@ function BuyOptionsPage({data, isMobile, myData, ...props}:{props:Object, isMobi
            <StyledLink to={`/marked/${abbreviation}`}>{abbreviation}</StyledLink> &nbsp;
            {<img src={RightArrowVector} alt="RightArrowIcon" />}
            &nbsp;
-           Buy option
+           Buy
            </h1>
        </Breadcrumbs>
        <Upperbody>
@@ -119,28 +91,6 @@ function BuyOptionsPage({data, isMobile, myData, ...props}:{props:Object, isMobi
            <div><h5>1Y</h5><p>{currentThing.oneyear}</p></div>
        </UpperbodyCard>
        </Upperbody>
-       <Lowerbody>
-            <LowerbodyHorizontalButtons>
-                <div>
-                    Series
-                    <LowerbodyHorizontalButton>
-                        $WETH/USDC
-                    </LowerbodyHorizontalButton>
-                </div>
-                <div>
-                    Expiry
-                    <LowerbodyHorizontalButton>
-                    Sat, 27 Feb 2021
-                    </LowerbodyHorizontalButton>
-                </div>
-            </LowerbodyHorizontalButtons>
-            <LowerbodyVerticalButtons>
-                <LowerbodyVerticalButton>Calls</LowerbodyVerticalButton>
-                <LowerbodyVerticalButton>Puts</LowerbodyVerticalButton>
-            </LowerbodyVerticalButtons>
-            <Spreadsheet isMobile={isMobile} list={data} scrollToValue={scrollToValue}
-            scrollTo={(e:number) => setScrollToValue(e)} uniqueValues={subValues}/>
-       </Lowerbody>
    </Container>
 }
 
