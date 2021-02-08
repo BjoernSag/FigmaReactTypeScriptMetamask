@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import RightArrowVector from './RightArrowVector.svg'
-import Graph from './Graph'
+import Spreadsheet from './Spreadsheet'
 import {
   BrowserRouter as Router,
   Route, Link
@@ -10,9 +10,7 @@ import {
 const Container = styled.div`
     width: 100%
     max-width:100vw;
-    margin-bottom: 20px;
 `
-
 const StyledLink = styled(Link)`
     text-decoration: none;
     color: black;
@@ -35,37 +33,35 @@ const UpperbodyCard = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 `
-const BuySellButtons = styled.div`
-    display: grid;
-    height: 68px;
-    width: 115px;
-    grid-template-columns: 1fr 1fr;
-`
-const BuyButton = styled.button`
-    background: green;
+
+const Lowerbody = styled.div`
+    margin: 0 auto;
+    max-width: 90vw;
 
 `
-const SellButton = styled.button`
-    background:red;
-`
-const TimeButtons = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+const LowerbodyHorizontalButtons = styled.div`
+    display:flex;
+    
 
 `
-const TimeButton = styled.button`
-    background: lightgrey;
-`
-const Body = styled.div`
+const LowerbodyHorizontalButton = styled.button`
 
 `
-const NewsCard = styled.div`
-    background: lightgrey;
-    border: 1px solid black;
+
+const LowerbodyVerticalButtons = styled.div`
+    transform: rotate(90deg);
+    display:flex;
+`
+const LowerbodyVerticalButton = styled.button`
+    width: 50px;
+
+
 `
 
-
-function MarkedItem({data, myData, ...props}:{props:Object, data:Array<Object>, myData:Array<Object>}) {
+function BuyOptionsPage({data, isMobile, myData, ...props}:{props:Object, isMobile:boolean, data:Array<Object>, myData:Array<Object>}) {
+    const [scrollToValue, setScrollToValue] = useState(0)
+    
+    let subValues = []
     /* We run through the props to make the array of chars into a single string */
     let abbreviation = ''
         for (const [k, v] of Object.entries(props)) {
@@ -84,17 +80,22 @@ function MarkedItem({data, myData, ...props}:{props:Object, data:Array<Object>, 
             name += v  // Type is any
           }
     }
-    
 
+    for (const [k, v] of Object.entries(currentThing)) {
+        subValues.push(k)
+        name += v  // Type is any
+      }
 
-    console.log('props name', currentThing)
     return <Container>
         <Breadcrumbs>
            <h1>
            <StyledLink to="/marked">Marked</StyledLink> &nbsp;
            {<img src={RightArrowVector} alt="RightArrowIcon" />}
            &nbsp;
-        {abbreviation}
+           <StyledLink to={`/marked/${abbreviation}`}>{abbreviation}</StyledLink> &nbsp;
+           {<img src={RightArrowVector} alt="RightArrowIcon" />}
+           &nbsp;
+           Buy option
            </h1>
        </Breadcrumbs>
        <Upperbody>
@@ -117,43 +118,30 @@ function MarkedItem({data, myData, ...props}:{props:Object, data:Array<Object>, 
            <div><h5>1W</h5><p>{currentThing.oneweek}</p></div>
            <div><h5>1Y</h5><p>{currentThing.oneyear}</p></div>
        </UpperbodyCard>
-       <BuySellButtons>
-           <BuyButton><StyledLink to={`/marked/${currentThing.abbreviation}/buyoption`}>
-                Add to Cart
-                </StyledLink></BuyButton>
-           <SellButton><StyledLink to={`/marked/${currentThing.abbreviation}/buyoption`}>
-                Sell
-            </StyledLink>
-           </SellButton>
-       </BuySellButtons>
-       <TimeButtons>
-           <TimeButton>1D</TimeButton>
-           <TimeButton>1W</TimeButton>
-           <TimeButton>1M</TimeButton>
-           <TimeButton>1Y</TimeButton>
-       </TimeButtons>
-       <h3>Graph:</h3>
-        <Graph/>
        </Upperbody>
-       <Body>
-       <h3>Info</h3>
-       <p>Text about uniswap. This is where you write information that might help a new or experienced
-           user might.. 
-       </p>
-       <p>Read more</p>
-       <h3>News</h3>
-       <NewsCard>
-           <h5>Congress pledges support</h5>
-           <strong>New York Time</strong>
-        </NewsCard>
-        <NewsCard>
-           <h5>The options for the future</h5>
-           <strong>Washington Post</strong>
-        </NewsCard>
-
-       </Body>
-       
-      </Container>
+       <Lowerbody>
+            <LowerbodyHorizontalButtons>
+                <div>
+                    Series
+                    <LowerbodyHorizontalButton>
+                        $WETH/USDC
+                    </LowerbodyHorizontalButton>
+                </div>
+                <div>
+                    Expiry
+                    <LowerbodyHorizontalButton>
+                    Sat, 27 Feb 2021
+                    </LowerbodyHorizontalButton>
+                </div>
+            </LowerbodyHorizontalButtons>
+            <LowerbodyVerticalButtons>
+                <LowerbodyVerticalButton>Calls</LowerbodyVerticalButton>
+                <LowerbodyVerticalButton>Puts</LowerbodyVerticalButton>
+            </LowerbodyVerticalButtons>
+            <Spreadsheet isMobile={isMobile} list={data} scrollToValue={scrollToValue}
+            scrollTo={(e:number) => setScrollToValue(e)} uniqueValues={subValues}/>
+       </Lowerbody>
+   </Container>
 }
 
-export default MarkedItem;
+export default BuyOptionsPage;

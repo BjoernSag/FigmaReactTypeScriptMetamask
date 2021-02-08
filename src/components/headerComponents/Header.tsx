@@ -11,7 +11,7 @@ imports if we want to quickly change  */
 const HeaderDiv = styled.div`
     display: flex;
     justify-content: space-between;
-    margin: 1%;
+    margin: 0%;
 
     
 /* Position and sizing of burger button */
@@ -89,24 +89,36 @@ const RightItem = styled.div`
 const FeedbackElement = styled.button`
 position : fixed;
 top:50%;
-right: -20px;
+right: 0;
 transform: rotate(-90deg);
+`
+
+const HeaderDivDesktop = styled.div`
+display: flex;
+    justify-content: space-between;
+    margin: 0%;
+  background:lightblue;
 `
 
 /* Return the header. Use a imported menu component
 Use the navbar as child of that */
-function Header() {
-  return (
-    <div>
+function Header({isMobile} : {isMobile:boolean}) {
+  console.log('ismobile', isMobile)
+  return isMobile ? <div>
      <HeaderDiv>
-        <Menu width= {'70%'}>
-            <Navbar />
+        <Menu width= {'50%'}>
+            <Navbar isMobile={isMobile}/>
         </Menu>
         <RightItem><div>location.eth</div></RightItem>
       </HeaderDiv>
       <FeedbackElement>Feedback</FeedbackElement>
+    </div> : <div>
+      <HeaderDivDesktop>
+        <Navbar isMobile={isMobile}/>
+        <RightItem><div>location.eth</div></RightItem>
+      </HeaderDivDesktop>
+      <FeedbackElement>Feedback</FeedbackElement>
     </div>
-  );
 }
 
 export default Header;

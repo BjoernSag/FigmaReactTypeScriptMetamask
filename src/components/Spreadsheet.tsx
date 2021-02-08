@@ -1,0 +1,357 @@
+import React, { useState, useEffect} from 'react'
+import _ from 'lodash'
+import { Column, Table, AutoSizer, SortDirection, SortDirectionType} from 'react-virtualized'
+import '../reactVirtualisedStyles.css'
+import Swipe from 'react-easy-swipe';
+import styled from 'styled-components'
+import MobileOnIcon from './clarity_mobile-phone-solid.svg'
+import MobileOffIcon from './DesktopIcon.svg'
+import {
+    BrowserRouter as Router,
+    Route, Link
+  } from 'react-router-dom'
+interface BaseCSSProperties {
+    /*
+     * Used to control if the rule-set should be affected by rtl transformation
+     */
+    flip?: boolean;
+  }
+
+
+const customStyles = {
+    content : {
+      top                   : '50%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)'
+    }
+  };
+  
+  
+  const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: black;
+    `
+  
+  const StyledContainer = styled.div`
+    width:100%;
+    max-width: 100%;
+  `
+  
+  const StyledViewImg = styled.img`
+    padding:8px;
+    position: fixed;
+    right: 16px;
+    top: 20px;
+    z-index:1000;
+  `
+  
+  const StyledNavigationButtonRight = styled.img`
+    position:fixed;
+    right:0;
+    margin-top:50%;
+    z-index:1000;
+  `
+  const StyledNavigationButtonLeft = styled.img`
+    position:fixed;
+    left:0;
+    margin-top:50%;
+    z-index:1000;
+  `
+  
+  const DesktopIcon = styled.img`
+  &:hover {
+    border: solid 1px black;
+  }
+  `
+  const IconLine = styled.div`
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  `
+  
+  const  TableView = ({isMobile, scrollToValue, list, scrollTo, uniqueValues} : 
+    {isMobile:boolean, list:any, scrollToValue:number, scrollTo: any, uniqueValues:any}) => {
+        console.log('list', list)
+    const [sortBy, setSortBy] = useState('strike')
+    const [sortDirection, setSortDirection] = useState('ASC')
+    const [sortedList, setSortedList] = useState(list)
+    const [activeColumn, setActiveColumn] = useState('strike')
+    const [prevColumn, setPrevColumn] = useState(0)
+    const [mobileView, setMobileView] = useState(isMobile)
+    const [allColumns, setAllColumns] = useState(uniqueValues)
+  
+    const StyledTable = styled.div`
+    display:relative;
+    padding-top: ${isMobile ? '20px' : '0'}
+  `
+  
+    const headerStyle = {
+      textAlign: 'center',
+      fontSize: '0.8rem',
+      textTransform: 'uppercase',
+      letterSpacing: '1px',
+      padding: '30px 0',
+    }
+  
+    const tableStyle={
+      borderRadius: '10px',
+      fontSize: '0.8rem',
+      fontWeight: 'normal',
+      border: 'none',
+      borderCollapse: 'collapse',
+      width: '100%',
+      maxWidth: '100%',
+      whiteSpace: 'nowrap',
+      textAlign: 'center',
+    }
+  
+  
+      /* The first sort. Sorts for name*/
+    useEffect(() => {
+      if(list.find((i:any) => i['strike'] === true)){
+        const tempList = _.sortBy(list, item => item['strike'])
+        const sortedLists = tempList.reverse()
+        setSortedList(sortedLists)
+        setActiveColumn('strike')
+      }else {
+        const tempList = _.sortBy(list, item => item[sortBy])
+        const sortedLists = tempList.reverse()
+        setSortedList(sortedLists)
+      }
+      
+    }, [list, sortBy])
+
+    console.log('list2', activeColumn, sortedList)
+  
+    /* A function that changes the style for the rendered rows, so that every other column
+    is white and every other is another colour */
+    const rowStyle = (e:any) => {
+        console.log('e',e)
+      return {height: '50px',background: e.index%2===0 ? '#0073be' : '#fff5f2', }
+    }
+  
+    //Variables that changes during scrolling 
+    let prevScroll:number = 0
+    /* Detect when the user is scrolling */
+    const userScrolls = (scrollFromTop: number) => {
+      if(scrollFromTop === 0) {
+        return null
+      }
+      if(scrollFromTop === scrollToValue) {
+        return null
+      }
+      prevScroll = scrollFromTop
+      if(!prevScroll) {
+          prevScroll = 0
+      }
+  
+      var timer = null;
+      if(timer !== null){
+        clearTimeout(timer)
+      }
+      timer = setTimeout(function() {
+        setPrevColumn(prevScroll)
+      }, 275)
+      
+    }
+  
+    /* Let the user swipe to change the active column */
+    const swipeColumn = (input:any) => {
+      let index = 0;
+      for(let i = 0; i<allColumns.length; i++){
+        if(allColumns[i] === activeColumn){
+          index = i;
+        }
+      }
+  
+      if(input==='right') {
+        if(index===allColumns.length-1) index=-1;
+        setActiveColumn(allColumns[index+1])
+        scrollTo(prevScroll)
+       
+      }
+      if(input==='left') {
+        if(index===0) index=allColumns.length;
+        setActiveColumn(allColumns[index-1])
+        scrollTo(prevScroll)
+      }
+  
+    }
+  
+    /* Gets the variable e from the method in the table, and extracts the sortBy variable
+    this is to allow us to sort on all the different variables. We can set variables to not sortable by editing the 
+    values in "column"
+    We update the different states as to the current values */
+    const sort = (e: { sortBy: any; sortDirection:any; }) => {
+      setSortBy(e.sortBy)
+      const tempList = _.sortBy(list, item => item[e.sortBy])
+      const sortedList = sortDirection===SortDirection.DESC ? tempList.reverse() : tempList
+      setSortedList(sortedList)
+      if(sortDirection === 'DESC') {
+        setSortDirection('ASC')
+      } else {
+        setSortDirection('DESC')
+      }
+    } 
+    
+    /* function to be used to allow for individual styling of the different elements of the table */
+    const cellRendererEffect = ({key, rowIndex, style} : {key:number, rowIndex:number,
+    style:Object}) => {
+      if(sortedList[rowIndex]['effect'] > 100)
+        style={color:'red'}
+      return (
+        <div key={key} style={style}>
+          {sortedList[rowIndex]['effect']}
+        </div>
+      )
+    }
+  
+    /* Get the selected option from the select box and set the active column to that 
+    option through updating state, therby updating the component and the site, so that it
+    happens live */
+    const selectedColumn = (e:any) => {
+      let element:any = document.getElementById('selectBox')
+        let activeElement = element.options[element.selectedIndex]
+      setActiveColumn(activeElement.value)
+    }
+  
+    const cellRenderer = ({rowIndex} : {rowIndex:number}) => {
+        <div>
+            <StyledLink to="/">
+                {rowIndex}
+            </StyledLink>
+        </div>
+    }
+  
+    
+    const tableProps = {
+        className:"classes.table"
+}
+    // Render your table
+    return(
+      <StyledContainer>
+        {/*Checks if it is mobile phone*/}
+        {isMobile ?  
+          /*Checks if it is mobile view(swipe) or the standard view (desktop)*/
+          mobileView ? 
+            <div>
+              <StyledNavigationButtonRight onClick={() => 
+                swipeColumn('right')} width="30px" height="30px" src={MobileOnIcon}/>
+              <StyledNavigationButtonLeft onClick={() => swipeColumn('left')} width="30px" height="30px" src={MobileOffIcon}/>
+              <select id='selectBox' onChange={(e) => selectedColumn(e)}>
+                {/* <option value='daily'>Aktive Alarmer</option> */}
+                {console.log('unique', uniqueValues)}
+                {uniqueValues.map((element:string, index:number) => <option value={element}>{element}</option>
+                )}
+              </select>
+              <StyledViewImg color="white" height="70px" width="70px" src={MobileOnIcon} onClick={() => setMobileView(!mobileView)}/>
+              <AutoSizer>
+          {({ height, width }: {height:number, width:number}) => (
+             /*  <Swipe
+              onSwipeLeft={() => swipeColumn('left')}
+              onSwipeRight={() => swipeColumn('right')}
+              //Tolereance to avoid oversensitivity
+              tolerance = { 100 }> */
+                <StyledTable>
+                    <Table
+            height={500}
+            width={width}
+            rowHeight={70}
+            headerHeight={70}
+            rowCount={sortedList.length}
+            rowGetter={({ index } : {index:number}) => sortedList[index]}
+            headerStyle={headerStyle}
+            sort={(e:any) => sort(e)}
+            sortBy={sortBy}
+            rowStyle={(e:any) => rowStyle(e)}
+            //scroll and swipe, makes sure to remember the scroll position on swipe left or right
+            onScroll={(e: { scrollTop: number; }) => {
+                if(e.scrollTop === scrollToValue) {
+                  return
+                }else if(scrollToValue!==0 && e.scrollTop === 0) {
+                  return 
+                }else {
+                  userScrolls(e.scrollTop)
+                }
+              }
+            }
+            scrollTop={prevColumn!==null ? prevColumn : scrollToValue}
+            
+         >
+  
+                    <Column
+                    label='strike'
+                    dataKey='strike'
+                    width={200}
+            
+                    />
+                    <Column
+                    width={200}
+                    label={activeColumn}
+                    dataKey={activeColumn}
+                    />
+                  </Table>
+                </StyledTable>
+             /*  </Swipe>  */
+          )}
+          </AutoSizer>
+            </div>
+          //If it's not mobileView then no need to show the "choose column box" and instead we show
+          //the desktop view with all columns. We don't use Autosizer here and instead just count the 
+          //amount of columns * the size and use that as width, since we want to be able to scroll sideways
+          : 
+          <div>
+            <StyledViewImg height="70px" width="70px" src={MobileOffIcon} onClick={() => setMobileView(!mobileView)}/>
+             <StyledTable>
+              <Table
+              width={1200}
+              height={820}
+              headerHeight={70}
+              rowHeight={50}
+              rowCount={sortedList.length}
+              rowGetter={({ index } : {index:number}) => sortedList[index]}
+              headerStyle={headerStyle}
+              sort={(e: { sortBy: any; sortDirection:String; }) => sort(e)}
+              >
+                {uniqueValues.map((i: any) => 
+                <Column label={i}
+                dataKey={i}
+                width={(window.screen.width/uniqueValues.length)}
+                />)}
+            </Table>
+          </StyledTable>
+        </div>
+            
+            //If it's not "isMobile" then do show the desktop version(difference is AutoSizer, so is
+            // always 100% width)
+         : ''}
+        {!isMobile ? <AutoSizer>
+          {({ height, width }: {height:number, width:number}) => (
+            <StyledTable>
+              <Table
+              width={width}
+              height={820}
+              headerHeight={70}
+              rowHeight={50}
+              rowCount={sortedList.length}
+              rowGetter={({ index } : {index:number}) => sortedList[index]}
+              headerStyle={headerStyle}
+              sort={(e: any) => sort(e)}
+              >
+                {uniqueValues.map((i: any) => 
+                <Column label={i}
+                dataKey={i}
+                width={(window.screen.width/uniqueValues.length)}
+                />)}
+            </Table>
+          </StyledTable>
+          )}
+        </AutoSizer>
+  : '' }
+      </StyledContainer>
+    )
+  }
+  
+  export default TableView

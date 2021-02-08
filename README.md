@@ -1,3 +1,21 @@
+This is a project made with create-react-app and typescript.
+
+The goal of the project is to integrate it with an AMM, and use Metamask.
+
+We use cypress.io to do a little end to end testing. Before running it it is important to start create-react-app(by writing npm run start), as it is testing that version. In a live version, we wouldn't need to do that, as we could test directly at the live version. To run cypress, write "npm run cypress:open" in console. This will open a program called cypress where you can click on the test I have created
+
+The focus on this application this far has been mobile first. But I did setup a basic dynamic solution based on mediaqueeries that can be used to make desktop, landscape, etc versions.
+This can be found under responsive_utilities and the different breakpoints are imported and used as components
+
+As the first stage of the project I designed it in figma, the design can be found here:
+https://www.figma.com/file/DBQzqixQZoIbq8ZsFz7P5t/Ether?node-id=0%3A1
+
+
+Brief docs can be found under, and a "how to start and use create-react-app can be found at the bottom"
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
