@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import RightArrowVector from '../../icons/RightArrowVector.svg'
 import EtheriumInfo from '../blockchain/EtheriumInfo'
-import Spreadsheet from '../helperComponents/Spreadsheet'
 import {
   BrowserRouter as Router,
   Route, Link
@@ -14,6 +13,13 @@ const Container = styled.div`
     max-width:100vw;
     h2 {
         margin: 10px 10px;
+    }
+    margin: 1%;
+    h4 {
+        margin: 10px 10px; 
+    }
+    button {
+        margin: 0px 10px;
     }
 `
 const StyledLink = styled(Link)`
@@ -131,7 +137,6 @@ function BuyOptionsPage({data, isMobile, myData, ...props}:{props:Object, isMobi
 
 
     return <Container>
-        <EtheriumInfo />
         <Breadcrumbs>
            <h2>
            <StyledLink to="/marked">Marked</StyledLink> &nbsp;
@@ -143,6 +148,7 @@ function BuyOptionsPage({data, isMobile, myData, ...props}:{props:Object, isMobi
            Buy
            </h2>
        </Breadcrumbs>
+       <EtheriumInfo />
        <Upperbody>
         <h1>$WETH/USDC</h1>
        <UpperbodySubtitle>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import {useDispatch } from 'react-redux'
+import { useHistory } from 'react-router'
 import _ from 'lodash'
 import { Column, Table, AutoSizer, SortDirection, SortDirectionType} from 'react-virtualized'
 import './reactVirtualisedStyles.css'
@@ -34,16 +35,17 @@ const customStyles = {
   
   const StyledContainer = styled.div`
     width:100%;
-    max-width: 100vw;
+    max-width: 90vw;
     text-align:center;
+    margin: 0 auto;
+
     
   `
   
   const StyledViewImg = styled.img`
-    padding:8px;
+    padding:0px;
     right: 16px;
     top: 20px;
-    z-index:1000;
   `
   
   const StyledNavigationButtonRight = styled.img`
@@ -58,31 +60,55 @@ const customStyles = {
     bottom:-200px;
     z-index:1000;
   `
+
+  const LowerbodyHorizontalButtons = styled.div`
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 0.5fr;
+`
+const LowerbodyHorizontalButton = styled.div`
+
+`
+
+const LowerbodyHorizontalButtonsDesktop = styled.div`
+display: grid;
+grid-template-columns: 1fr 1fr;
+`
+
   
-  const DesktopIcon = styled.img`
-  &:hover {
-    border: solid 1px black;
-  }
-  `
-  const IconLine = styled.div`
-    display:grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  `
-  
-  const  TableView = ({isMobile, scrollToValue, list, scrollTo, uniqueValues} : 
-    {isMobile:boolean, list:any, scrollToValue:number, scrollTo: any, uniqueValues:any}) => {
+  const  TableView = ({isMobile, scrollToValue, list, listPuts, scrollTo, uniqueValues} : 
+    {isMobile:boolean, list:any, listPuts:any, scrollToValue:number, scrollTo: any, uniqueValues:any}) => {
     const [sortBy, setSortBy] = useState('strike')
     const [sortDirection, setSortDirection] = useState('ASC')
     const [sortedList, setSortedList] = useState(list)
-    const [activeColumn, setActiveColumn] = useState('strike')
+    const [sortedListPuts, setSortedListPuts] = useState(listPuts)
+    const [activeColumn, setActiveColumn] = useState('abbreviation')
     const [prevColumn, setPrevColumn] = useState(0)
     const [mobileView, setMobileView] = useState(isMobile)
     const [allColumns, setAllColumns] = useState(uniqueValues)
-    const dispatch = useDispatch()
+    const history = useHistory();
+    const [callsOrPuts, setCallsOrPuts] = useState('calls')
+
+  /* The style for the puts and calls buttons. Also includes the select to change columns */
+    const LowestButtons = styled.div`
+  display:flex;
+  
+`
+const LowestButtonCalls = styled.button`
+    width: 80px;
+    background: #09BC8A;
+    opacity: ${callsOrPuts === 'calls' ? '1' : '0.4'};
+    border: 0.5px solid black;
+`
+const LowestButtonPuts = styled.button`
+    width: 80px;
+    background: #09BC8A;
+    opacity: ${callsOrPuts === 'puts' ? '1' : '0.4'};
+    border: 0.5px solid black;
+`
   
     const StyledTable = styled.div`
     display:relative;
-    padding-top: ${isMobile ? '20px' : '0'};
+    padding-top: ${isMobile ? '0' : '0'};
     
   `
   
@@ -119,8 +145,18 @@ const customStyles = {
         const sortedLists = tempList.reverse()
         setSortedList(sortedLists)
       }
+
+      if(listPuts.find((i:any) => i['strike'] === true)){
+        const tempListPuts = _.sortBy(listPuts, item => item['strike'])
+        const sortedLists = tempListPuts.reverse()
+        setSortedListPuts(sortedLists)
+      }else {
+        const tempListPuts = _.sortBy(listPuts, item => item[sortBy])
+        const sortedLists = tempListPuts.reverse()
+        setSortedListPuts(sortedLists)
+      }
       
-    }, [list, sortBy])
+    }, [list, listPuts, sortBy])
 
   
     /* A function that changes the style for the rendered rows, so that every other column
@@ -234,16 +270,42 @@ const customStyles = {
           /*Checks if it is mobile view(swipe) or the standard view (desktop)*/
           mobileView ? 
             <div>
+              {/* Add the right and left arrow to change columns in mobile view */}
               <StyledNavigationButtonRight onClick={() => 
                 swipeColumn('right')} width="30px" height="30px" src={RightArrowVector}/>
               <StyledNavigationButtonLeft onClick={() => swipeColumn('left')} width="30px" height="30px" src={LeftArrowVector}/>
-              <select id='selectBox' onChange={(e) => selectedColumn(e)}>
-                {/* <option value='daily'>Aktive Alarmer</option> */}
-                {console.log('unique', uniqueValues)}
+              <LowerbodyHorizontalButtons>
+                <div>
+                  {/* Add the 2 select buttons and the button to change between mobile and desktop view on mobiles */}
+                  <LowerbodyHorizontalButton>
+                    Series
+                    <select id='selectBoxLeftButton'>
+                     <option value={'$WETH/USDC'}>$WETH/USDC</option>
+                     </select>
+
+                    </LowerbodyHorizontalButton>
+                </div>
+                <div>
+                <LowerbodyHorizontalButton>
+                Expiry
+                    <select id='selectBoxLeftButton'>
+                     <option value={'Sat, 27 Feb 2021'}>Sat, 27 Feb 2021</option>
+                     </select>
+
+                    </LowerbodyHorizontalButton>
+                </div>
+                <StyledViewImg color="white" height="60px" width="70px" src={MobileOnIcon} onClick={() => setMobileView(!mobileView)}/>
+            </LowerbodyHorizontalButtons>
+            {/* Add the lowest buttons and select. The select changes columns, the two buttons changes between puts and calls */}
+            <LowestButtons>
+            <select id='selectBox' onChange={(e) => selectedColumn(e)}>
                 {uniqueValues.map((element:string, index:number) => <option value={element}>{element}</option>
                 )}
               </select>
-              <StyledViewImg color="white" height="70px" width="70px" src={MobileOnIcon} onClick={() => setMobileView(!mobileView)}/>
+                <LowestButtonCalls onClick={() => setCallsOrPuts('calls')}>Calls</LowestButtonCalls>
+                <LowestButtonPuts onClick={() => setCallsOrPuts('puts')}>Puts</LowestButtonPuts>
+                </LowestButtons>
+            
               <AutoSizer>
           {({ height, width }: {height:number, width:number}) => (
              /*  <Swipe
@@ -257,13 +319,13 @@ const customStyles = {
             width={width}
             rowHeight={70}
             headerHeight={70}
-            rowCount={sortedList.length}
-            rowGetter={({ index } : {index:number}) => sortedList[index]}
+            rowCount={callsOrPuts === 'calls' ? sortedList.length : sortedListPuts.length}
+            rowGetter={({ index } : {index:number}) => callsOrPuts === 'calls' ? sortedList[index] : sortedListPuts[index]}
             headerStyle={headerStyle}
             sort={(e:any) => sort(e)}
             sortBy={sortBy}
             rowStyle={(e:any) => rowStyle(e)}
-            onRowClick={(e) => dispatch({type:'NEW_PAGE', data:{valueType:'page', id:e.rowData}})}
+            onRowClick={(e) => history.push(`/marked/UNI/buy`)}
             //scroll and swipe, makes sure to remember the scroll position on swipe left or right
             onScroll={(e: { scrollTop: number; }) => {
                 if(e.scrollTop === scrollToValue) {
@@ -301,24 +363,49 @@ const customStyles = {
           //amount of columns * the size and use that as width, since we want to be able to scroll sideways
           : 
           <div>
-            <StyledViewImg height="70px" width="70px" src={MobileOffIcon} onClick={() => setMobileView(!mobileView)}/>
+            <LowerbodyHorizontalButtons>
+            <div>
+                  <LowerbodyHorizontalButton>
+                    Series
+                    <select id='selectBoxLeftButton'>
+                     <option value={'$WETH/USDC'}>$WETH/USDC</option>
+                     </select>
+
+                    </LowerbodyHorizontalButton>
+                </div>
+                <div>
+                <LowerbodyHorizontalButton>
+                Expiry
+                    <select id='selectBoxLeftButton'>
+                     <option value={'Sat, 27 Feb 2021'}>Sat, 27 Feb 2021</option>
+                     </select>
+
+                    </LowerbodyHorizontalButton>
+                </div>
+                <StyledViewImg color="white" height="60px" width="70px" src={MobileOnIcon} onClick={() => setMobileView(!mobileView)}/>
+            </LowerbodyHorizontalButtons>
+            <LowestButtons>
+            <LowestButtonCalls onClick={() => setCallsOrPuts('calls')}>Calls</LowestButtonCalls>
+            <LowestButtonPuts onClick={() => setCallsOrPuts('puts')}>Puts</LowestButtonPuts>
+                </LowestButtons>
+            
              <StyledTable>
               <Table
-              width={1200}
+              width={600}
               height={820}
               headerHeight={70}
               rowHeight={50}
-              rowCount={sortedList.length}
               rowStyle={(e:any) => rowStyle(e)}
-              rowGetter={({ index } : {index:number}) => sortedList[index]}
+              rowCount={callsOrPuts === 'calls' ? sortedList.length : sortedListPuts.length}
+              rowGetter={({ index } : {index:number}) => callsOrPuts === 'calls' ? sortedList[index] : sortedListPuts[index]}
               headerStyle={headerStyle}
-              onRowClick={(e) => dispatch({type:'NEW_PAGE', data:{valueType:'page', id:e.rowData}})}
+              onRowClick={(e) => history.push(`/marked/UNI/buy`)}
               sort={(e: { sortBy: any; sortDirection:String; }) => sort(e)}
               >
                 {uniqueValues.map((i: any) => 
                 <Column label={i}
                 dataKey={i}
-                width={(window.screen.width/uniqueValues.length)}
+                width={(600/uniqueValues.length)}
                 />)}
             </Table>
           </StyledTable>
@@ -327,7 +414,31 @@ const customStyles = {
             //If it's not "isMobile" then do show the desktop version(difference is AutoSizer, so is
             // always 100% width)
          : ''}
-        {!isMobile ? <AutoSizer>
+        {!isMobile ? <div><LowerbodyHorizontalButtonsDesktop>
+          <div>
+                  <LowerbodyHorizontalButton>
+                    Series
+                    <select id='selectBoxLeftButton'>
+                     <option value={'$WETH/USDC'}>$WETH/USDC</option>
+                     </select>
+
+                    </LowerbodyHorizontalButton>
+                </div>
+                <div>
+                <LowerbodyHorizontalButton>
+                Expiry
+                    <select id='selectBoxLeftButton'>
+                     <option value={'Sat, 27 Feb 2021'}>Sat, 27 Feb 2021</option>
+                     </select>
+
+                    </LowerbodyHorizontalButton>
+                </div>
+            </LowerbodyHorizontalButtonsDesktop>
+            <LowestButtons>
+            <LowestButtonCalls onClick={() => setCallsOrPuts('calls')}>Calls</LowestButtonCalls>
+            <LowestButtonPuts onClick={() => setCallsOrPuts('puts')}>Puts</LowestButtonPuts>
+                </LowestButtons>
+                <AutoSizer>
           {({ height, width }: {height:number, width:number}) => (
             <StyledTable>
               <Table
@@ -336,10 +447,10 @@ const customStyles = {
               headerHeight={70}
               rowHeight={50}
               rowStyle={(e:any) => rowStyle(e)}
-              rowCount={sortedList.length}
-              rowGetter={({ index } : {index:number}) => sortedList[index]}
+              rowCount={callsOrPuts === 'calls' ? sortedList.length : sortedListPuts.length}
+              rowGetter={({ index } : {index:number}) => callsOrPuts === 'calls' ? sortedList[index] : sortedListPuts[index]}
               headerStyle={headerStyle}
-              onRowClick={(e) => dispatch({type:'NEW_PAGE', data:{valueType:'page', id:e.rowData}})}
+              onRowClick={(e) => history.push(`/marked/UNI/buy`)}
               sort={(e: any) => sort(e)}
               >
                 {uniqueValues.map((i: any) => 
@@ -351,6 +462,7 @@ const customStyles = {
           </StyledTable>
           )}
         </AutoSizer>
+        </div>
   : '' }
       </StyledContainer>
     )

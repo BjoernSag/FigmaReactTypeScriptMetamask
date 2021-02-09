@@ -58,26 +58,8 @@ const Lowerbody = styled.div`
     max-width: 100vw;
 
 `
-const LowerbodyHorizontalButtons = styled.div`
-    display:flex;
-    
 
-`
-const LowerbodyHorizontalButton = styled.button`
-
-`
-
-const LowerbodyVerticalButtons = styled.div`
-    transform: rotate(90deg);
-    display:flex;
-`
-const LowerbodyVerticalButton = styled.button`
-    width: 50px;
-
-
-`
-
-function BuyOptionsPage({data, isMobile, myData, ...props}:{props:Object, isMobile:boolean, data:Array<Object>, myData:Array<Object>}) {
+function BuyOptionsPage({data, dataPuts, isMobile, myData, ...props}:{props:Object, isMobile:boolean, dataPuts:Array<Object> ,data:Array<Object>, myData:Array<Object>}) {
     const [scrollToValue, setScrollToValue] = useState(0)
     
     let subValues = []
@@ -140,25 +122,9 @@ function BuyOptionsPage({data, isMobile, myData, ...props}:{props:Object, isMobi
        </UpperbodyCard>
        </Upperbody>
        <Lowerbody>
-            <LowerbodyHorizontalButtons>
-                <div>
-                    Series
-                    <LowerbodyHorizontalButton>
-                        $WETH/USDC
-                    </LowerbodyHorizontalButton>
-                </div>
-                <div>
-                    Expiry
-                    <LowerbodyHorizontalButton>
-                    Sat, 27 Feb 2021
-                    </LowerbodyHorizontalButton>
-                </div>
-            </LowerbodyHorizontalButtons>
-            <LowerbodyVerticalButtons>
-                <LowerbodyVerticalButton>Calls</LowerbodyVerticalButton>
-                <LowerbodyVerticalButton>Puts</LowerbodyVerticalButton>
-            </LowerbodyVerticalButtons>
-            <Spreadsheet isMobile={isMobile} list={data} scrollToValue={scrollToValue}
+            
+            
+            <Spreadsheet isMobile={isMobile} list={data} listPuts={dataPuts} scrollToValue={scrollToValue}
             scrollTo={(e:number) => setScrollToValue(e)} uniqueValues={subValues}/>
        </Lowerbody>
    </Container>

@@ -29,9 +29,10 @@ function EtheriumInfo() {
 
 
     return <div>
+      <h4>Connect to metamask or see current connected account</h4>
         <button onClick={() => onClickConnect()}>Connect your wallet</button>
         <button onClick={() => getAccounts()}>Check current account</button>
-        {currentAccount}
+        <p><strong>Current account is:</strong> {currentAccount}</p>
 
     </div>
   

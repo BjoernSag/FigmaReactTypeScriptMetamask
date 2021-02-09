@@ -105,6 +105,7 @@ transform: rotate(-90deg);
 border: none;
 color:white;
 background: #09BC8A;
+z-index: 20000;
 `
 
 const HeaderDivDesktop = styled.div`
