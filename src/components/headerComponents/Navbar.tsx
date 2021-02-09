@@ -29,18 +29,19 @@ const StyledLink = styled(Link)`
     }
     `
 /* A function to render the navbar. Use the react router to navigate in the app
-use styled components to add some style and css to it */
+use styled components to add some style and css to it 
+
+The moonIcon is for a future night mode feature and doesn't have any functionality now*/
 function Navbar({isMobile} : {isMobile:boolean}) {
   return isMobile ? 
     <ContainerDivMobile>
         <div className="menu-item"><StyledLink to='/'>Home</StyledLink></div>
         <div className="menu-item"><StyledLink to='/marked'>Market</StyledLink></div>
-        <img src={moonIcon} alt="moonIcon"/>
+        <img onClick={() => alert('NightMode has not been implemented yet')} src={moonIcon} alt="moonIcon"/>
     </ContainerDivMobile> : <ContainerDiv>
         <div className="menu-item"><StyledLink to='/'>Home</StyledLink></div>
         <div className="menu-item"><StyledLink to='/marked'>Market</StyledLink></div>
-        <div> &nbsp; <img src={moonIcon} alt="moonIcon"/></div>
-       
+        <div> &nbsp; <img onClick={() => alert('NightMode has not been implemented yet')}src={moonIcon} alt="moonIcon"/></div>
     </ContainerDiv>
 }
 
