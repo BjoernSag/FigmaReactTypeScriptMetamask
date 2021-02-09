@@ -304,6 +304,7 @@ const LowestButtonPuts = styled.button`
             </LowerbodyHorizontalButtons>
             {/* Add the lowest buttons and select. The select changes columns, the two buttons changes between puts and calls */}
             <LowestButtons>
+              {/* Map through the uniquevalues so that we can change between the correct columns on mobile by using the select */}
             <select id='selectBox' onChange={(e) => selectedColumn(e)}>
                 {uniqueValues.map((element:string, index:number) => <option value={element}>{element}</option>
                 )}
@@ -311,7 +312,7 @@ const LowestButtonPuts = styled.button`
                 <LowestButtonCalls onClick={() => setCallsOrPuts('calls')}>Calls</LowestButtonCalls>
                 <LowestButtonPuts onClick={() => setCallsOrPuts('puts')}>Puts</LowestButtonPuts>
                 </LowestButtons>
-            
+            {/* The actual table we will render */}
               <AutoSizer>
           {({ height, width }: {height:number, width:number}) => (
              /*  <Swipe
@@ -392,11 +393,12 @@ const LowestButtonPuts = styled.button`
                 </div>
                 <StyledViewImg color="white" height="60px" width="70px" src={MobileOnIcon} onClick={() => setMobileView(!mobileView)}/>
             </LowerbodyHorizontalButtons>
+             {/* Add buttons to change dataset between calls and puts */}
             <LowestButtons>
             <LowestButtonCalls onClick={() => setCallsOrPuts('calls')}>Calls</LowestButtonCalls>
             <LowestButtonPuts onClick={() => setCallsOrPuts('puts')}>Puts</LowestButtonPuts>
                 </LowestButtons>
-            
+            {/* The actual table we will render */}
              <StyledTable>
               <Table
               width={600}
@@ -410,6 +412,7 @@ const LowestButtonPuts = styled.button`
               onRowClick={(e) => history.push(`/marked/UNI/buy`)}
               sort={(e: { sortBy: any; sortDirection:String; }) => sort(e)}
               >
+                {/* Map through the uniquevalues so that the columns are correct */}
                 {uniqueValues.map((i: any) => 
                 <Column label={i}
                 dataKey={i}
@@ -444,10 +447,12 @@ const LowestButtonPuts = styled.button`
                     </LowerbodyHorizontalButton>
                 </div>
             </LowerbodyHorizontalButtonsDesktop>
+            {/* Add buttons to change dataset between calls and puts */}
             <LowestButtons>
             <LowestButtonCalls onClick={() => setCallsOrPuts('calls')}>Calls</LowestButtonCalls>
             <LowestButtonPuts onClick={() => setCallsOrPuts('puts')}>Puts</LowestButtonPuts>
                 </LowestButtons>
+                {/* The actual table we will render */}
                 <AutoSizer>
           {({ height, width }: {height:number, width:number}) => (
             <StyledTable>
@@ -463,6 +468,7 @@ const LowestButtonPuts = styled.button`
               onRowClick={(e) => history.push(`/marked/UNI/buy`)}
               sort={(e: any) => sort(e)}
               >
+                {/* Map through the uniquevalues so that the columns are correct */}
                 {uniqueValues.map((i: any) => 
                 <Column label={i}
                 dataKey={i}
