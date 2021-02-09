@@ -22,6 +22,7 @@ function EtheriumInfo() {
         }
       };
 
+      /* Gets the accounts and set the current account to state */
       const getAccounts = async () => {
           const accounts = await ethereum.request({ method : 'eth_accounts'})
           setCurrentaccount(accounts[0])
