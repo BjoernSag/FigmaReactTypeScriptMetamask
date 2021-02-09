@@ -123,7 +123,7 @@ function BuyOptionsPage({data, dataPuts, isMobile, myData, ...props}:{props:Obje
        </Upperbody>
        <Lowerbody>
             
-            
+            <p>Please click the row to go buy</p>
             <Spreadsheet isMobile={isMobile} list={data} listPuts={dataPuts} scrollToValue={scrollToValue}
             scrollTo={(e:number) => setScrollToValue(e)} uniqueValues={subValues}/>
        </Lowerbody>

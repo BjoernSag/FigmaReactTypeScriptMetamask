@@ -20,7 +20,7 @@ CSS that should be refactored into it's own css files as I reuse it several time
 TODO:
 The first time I visited your website, and espescially your app, I was really confused as to what everything meant.
 As you said in the first interview, the long term goal is to replace a lot, if not all of the central fintec industry
-with defi. But to do that we would have to get everyone to use it. My goal and plan would then be to make the site more accessible for everyone. Not just through a revamp of the mobile site, but also with more explanations.
+with defi. But to do that we would have to get everyone to use it. My goal and plan would then be to make the site more accessible for everyone. 
 
 
 
