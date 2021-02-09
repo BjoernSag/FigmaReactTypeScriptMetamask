@@ -116,10 +116,12 @@ display: flex;
 `
 
 /* Return the header. Use a imported menu component
-Use the navbar as child of that */
+Use the navbar as child of that 
+Check if we are on a mobile or not and return the burger menu if we are.*/
 function Header({isMobile} : {isMobile:boolean}) {
   return isMobile ? <div>
      <HeaderDiv>
+       {/* Set menu width for mobile to 50%. this is the menu that opens if you click the burger icon */}
         <Menu width= {'50%'}>
             <Navbar isMobile={isMobile}/>
         </Menu>
