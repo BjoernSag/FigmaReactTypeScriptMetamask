@@ -137,7 +137,8 @@ const LowestButtonPuts = styled.button`
     }
   
   
-      /* The first sort. Sorts for name*/
+      /* The first sort. Sorts for strike - We sort both list and listputs because we want to be able to change between
+      put list and call list*/
     useEffect(() => {
       if(list.find((i:any) => i['strike'] === true)){
         const tempList = _.sortBy(list, item => item['strike'])
@@ -280,7 +281,8 @@ const LowestButtonPuts = styled.button`
               <StyledNavigationButtonLeft onClick={() => swipeColumn('left')} width="30px" height="30px" src={LeftArrowVector}/>
               <LowerbodyHorizontalButtons>
                 <div>
-                  {/* Add the 2 select buttons and the button to change between mobile and desktop view on mobiles */}
+                  {/* Add the 2 select buttons and the button to change between mobile and desktop view on mobiles. Also add
+                  select bottons to choose series and expiry data */}
                   <LowerbodyHorizontalButton>
                     Series
                     <select id='selectBoxLeftButton'>
@@ -367,6 +369,8 @@ const LowestButtonPuts = styled.button`
           //amount of columns * the size and use that as width, since we want to be able to scroll sideways
           : 
           <div>
+             {/* Add the 2 select buttons and the button to change between mobile and desktop view on mobiles. Also add
+                  select bottons to choose series and expiry data */}
             <LowerbodyHorizontalButtons>
             <div>
                   <LowerbodyHorizontalButton>
@@ -420,6 +424,8 @@ const LowestButtonPuts = styled.button`
          : ''}
         {!isMobile ? <div><LowerbodyHorizontalButtonsDesktop>
           <div>
+             {/* Add
+                  select bottons to choose series and expiry data */}
                   <LowerbodyHorizontalButton>
                     Series
                     <select id='selectBoxLeftButton'>
