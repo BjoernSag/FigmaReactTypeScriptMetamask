@@ -1,15 +1,18 @@
 import React from 'react';
 import DesktopBreakpoint from './responsive_utilities/desktop_breakpoint';
+import LandscapeBreakpoint from './responsive_utilities/landscape_breakpoint';
 import PhoneBreakpoint from './responsive_utilities/phone_breakpoint';
 import Header from './components/headerComponents/Header'
 import Frontpage from './components/Frontpage'
 import Marked from './components/Marked'
 import MarkedItem from './components/MarkedItem'
 import BuyOptionPage from './components/BuyOptionsPage'
+import BuyPage from './components/BuyPage'
 import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom'
+
 
 interface Props {
   params: any;
@@ -56,15 +59,17 @@ const content = (isMobile:boolean) => {
             <Header isMobile={isMobile}/><BuyOptionPage data={data} isMobile={isMobile} myData={myData} {...match.params.slug}/>
           </div>} />
           <Route exact path="/marked/:slug/buy" render={({match} : {match:Props}) => <div>
-            <Header isMobile={isMobile}/><BuyOptionPage data={data} isMobile={isMobile} myData={myData} {...match.params.slug}/>
+            <Header isMobile={isMobile}/><BuyPage data={data} isMobile={isMobile} myData={myData} {...match.params.slug}/>
           </div>} />
       </div>
     </Router>
 
 }
 function App() {
+  
     return <div>
       <PhoneBreakpoint>{content(true)}</PhoneBreakpoint>
+      <LandscapeBreakpoint>{content(true)}</LandscapeBreakpoint>
       <DesktopBreakpoint>{content(false)}</DesktopBreakpoint>
     </div>
 }
