@@ -74,7 +74,11 @@ display: grid;
 grid-template-columns: 1fr 1fr;
 `
 
+  /* Returns a table. The table changes based on if on a mobile or not. If it is on mobile then there will only be two
+  columns and you can change the columns with a select dropdown or by clicking arrow buttons 
   
+  TODO: Add swipe functionality so we can swipe between columns on mobile*/
+
   const  TableView = ({isMobile, scrollToValue, list, listPuts, scrollTo, uniqueValues} : 
     {isMobile:boolean, list:any, listPuts:any, scrollToValue:number, scrollTo: any, uniqueValues:any}) => {
     const [sortBy, setSortBy] = useState('strike')

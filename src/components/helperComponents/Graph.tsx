@@ -2,6 +2,7 @@
 import React from 'react';
 import { LineChart, Line, Tooltip, XAxis, CartesianGrid } from 'recharts';
 
+/* This returns a Graph and takes in the data to show in that graph */
 function Graph({data}: {data:any}) {
     
     return <LineChart
