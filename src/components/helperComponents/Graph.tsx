@@ -6,7 +6,7 @@ import { LineChart, Line, Tooltip, XAxis, CartesianGrid } from 'recharts';
 function Graph({data}: {data:any}) {
     
     return <LineChart
-    width={300}
+    width={window.innerWidth-20}
     height={300}
     data={data}
     margin={{ top: 5, right: 20, left: 10, bottom: 5 }}

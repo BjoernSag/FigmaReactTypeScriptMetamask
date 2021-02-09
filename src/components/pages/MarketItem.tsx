@@ -80,8 +80,7 @@ const TimeButtons = styled.div`
     margin: 4px 2px;
     text-align: center;
     text-decoration: none;
-  
-  border: none;
+    border: none;
 
 `
 const TimeButton = styled.button`
@@ -89,6 +88,7 @@ font-size: 1.2em;
 color:white;
 border-radius: 50%;
 background: #004346;
+max-width: 200px;
 `
 const Body = styled.div`
     margin: 0 10px;
