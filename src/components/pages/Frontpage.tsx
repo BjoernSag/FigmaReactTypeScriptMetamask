@@ -13,6 +13,7 @@ const Container = styled.div`
 const StyledLink = styled(Link)`
     text-decoration: none;
     color: black;
+    text-align: center;
     `
 
 const AssetDiv = styled.div`
@@ -29,15 +30,17 @@ const AssetDivFirstLine = styled.div`
 const AssetDivLine = styled.div`
     padding: 0 2%;
     display: grid;
-    background: grey;
+    background: lightgrey;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-content: center;
+  align-items: center;
 `
 
 const assets = [
-    {name:'Uniswap', value:'10,454.20', return:'24%'},
-    {name:'Ether', value:'10,454.20', return:'10%'},
-    {name:'Ether', value:'10,454.20', return:'10%'},
-    {name:'Ether', value:'10,454.20', return:'10%'}        
+    {name:'Uniswap', value:'10,454.20', return:'24%', abbreviation:'UNI'},
+    {name:'Uniswap', value:'10,454.20', return:'10%', abbreviation: 'UNI'},
+    {name:'Uniswap', value:'10,454.20', return:'10%', abbreviation: 'UNI'},
+    {name:'Uniswap', value:'10,454.20', return:'10%', abbreviation: 'UNI'}        
 ]
 
 function Frontpage() {
@@ -58,7 +61,7 @@ function Frontpage() {
                     <p>{element.name}</p>
                     <p>{element.value}</p>
                     <p>{element.return}</p>
-                    <p>{'Read more'}</p>
+                    <StyledLink to={`/marked/${element.abbreviation}`}>{'Read more'}</StyledLink>
                 </AssetDivLine>
                })}
            

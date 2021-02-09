@@ -12,20 +12,22 @@ const HeaderDiv = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 0%;
+    background: #74B3CE;
+    height: 50px;
 
     
 /* Position and sizing of burger button */
 .bm-burger-button {
-  position: fixed;
+  position: absolute;
   width: 36px;
   height: 30px;
-  left: 36px;
+  left: 20px;
   top: 1%;
 }
 
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
-  background: #002d6e;
+  background: #508991;
 }
 
 /* Color/shape of burger icon bars on hover*/
@@ -56,18 +58,18 @@ Note: Beware of modifying this element as it can break the animations - you shou
 /* General sidebar styles */
 .bm-menu {
   font-family: 'Sanches', serif;
-  background: #002d6e;
+  background: #74B3CE;
   font-size: 1.15em;
 }
 
 /* Morph shape necessary with bubble or elastic */
 .bm-morph-shape {
-  fill: #002d6e;
+  fill: #74B3CE;
 }
 
 /* Wrapper for item list */
 .bm-item-list {
-  color: #002d6e;
+  color: #74B3CE;
 }
 
 /* Individual item */
@@ -83,33 +85,44 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 
 const RightItem = styled.div`
+  color:white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+`
 
+const RightItemText = styled.div`
+text-align: center;
 `
 
 const FeedbackElement = styled.button`
 position : fixed;
+font-size: 1em;
 top:50%;
-right: 0;
+right: -30px;
 transform: rotate(-90deg);
+border: none;
+color:white;
+background: #09BC8A;
 `
 
 const HeaderDivDesktop = styled.div`
 display: flex;
     justify-content: space-between;
     margin: 0%;
-  background:lightblue;
+  background:#74B3CE;
 `
 
 /* Return the header. Use a imported menu component
 Use the navbar as child of that */
 function Header({isMobile} : {isMobile:boolean}) {
-  console.log('ismobile', isMobile)
   return isMobile ? <div>
      <HeaderDiv>
         <Menu width= {'50%'}>
             <Navbar isMobile={isMobile}/>
         </Menu>
-        <RightItem><div>location.eth</div></RightItem>
+        <RightItem><RightItemText>location.eth</RightItemText></RightItem>
       </HeaderDiv>
       <FeedbackElement>Feedback</FeedbackElement>
     </div> : <div>

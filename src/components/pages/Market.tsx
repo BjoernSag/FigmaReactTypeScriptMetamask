@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import BuyIcon from './BuyIcon.svg'
+import BuyIcon from '../../icons/BuyIcon.svg'
+import FilterIcon from '../../icons/FilterIcon.svg'
+import SearchIcon from '../../icons/SearchIcon.svg'
 import {
   BrowserRouter as Router,
   Route, Link
@@ -9,10 +11,16 @@ import {
 const Container = styled.div`
     width: 100%
     max-width:100vw;
+
+    h2 {
+        margin: 10px 10px;
+    }
 `
 const Topbar = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-content: center;
+  align-items: center;
 `
 
 const StyledLink = styled(Link)`
@@ -21,6 +29,12 @@ const StyledLink = styled(Link)`
     `
 
     const AssetDiv = styled.div`
+    h4 {
+        margin: 10px 10px;
+    }
+    p {
+        margin: 10px 10px;
+    }
 
     `
     
@@ -28,7 +42,7 @@ const StyledLink = styled(Link)`
         padding: 0 2%;
         display: grid;
         background: lightgrey;
-        grid-template-columns: 1fr 1fr 1.5fr 0.5fr;
+        grid-template-columns: 1fr 1fr;
     `
 
     const AssertDivLineMap = styled.div`
@@ -45,27 +59,25 @@ const StyledLink = styled(Link)`
 
     const assets = [
         {name:'Uniswap', risk: '4', price:'$18.42', abbreviation:'UNI'},
-        {name:'Ether', risk: '4', price:'$18.42', abbreviation:'ETH'},
-        {name:'Ether', risk: '4', price:'$18.42', abbreviation:'ETH'},
-        {name:'Ether', risk: '4', price:'$18.42', abbreviation:'ETH'}        
+        {name:'Uniswap', risk: '4', price:'$18.42', abbreviation:'UNI'},
+        {name:'Uniswap', risk: '4', price:'$18.42', abbreviation:'UNI'},
+        {name:'Uniswap', risk: '4', price:'$18.42', abbreviation:'UNI'}        
     ]
 
 function Marked() {
     return <Container>
         <Topbar>
             <h2>
-                Marked
+                Market
             </h2>
             <p></p>
-            <div>Div</div>
-            <div>Div</div>
+            <img src={SearchIcon} alt="searchIcon" />
+            <img src={FilterIcon} alt="filterIcon" />
         </Topbar>
         <AssetDiv>
             <AssetDivFirstLine>
                 <p>50 Assets</p>
-                <p></p>
                 <p>Alphabetical A-Z</p>
-                <p></p>
             </AssetDivFirstLine>
             {assets.map((element, index:number) => {
                 return <AssertDivLineMap key={index}>
@@ -78,10 +90,6 @@ function Marked() {
                     </AssetDivLine></AssertDivLineMap>
                 })}
        </AssetDiv>
-        
-    
-    <p className="positiveMargin">+2.3%($200.21)</p>
-
    </Container>
 }
 

@@ -2,12 +2,11 @@
 import React from 'react';
 import { LineChart, Line, Tooltip, XAxis, CartesianGrid } from 'recharts';
 
-function Graph() {
-    const data = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, 
-    {name: 'Page B', uv: 500, pv: 3400, amt: 3400}];
+function Graph({data}: {data:any}) {
+    
     return <LineChart
-    width={400}
-    height={400}
+    width={300}
+    height={300}
     data={data}
     margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
   >

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import RightArrowVector from './RightArrowVector.svg'
-import Spreadsheet from './Spreadsheet'
+import RightArrowVector from '../../icons/RightArrowVector.svg'
+import Spreadsheet from '../helperComponents/Spreadsheet'
 import {
   BrowserRouter as Router,
   Route, Link
@@ -10,6 +10,9 @@ import {
 const Container = styled.div`
     width: 100%
     max-width:100vw;
+    h2 {
+        margin: 10px 10px;
+    }
 `
 const StyledLink = styled(Link)`
     text-decoration: none;
@@ -24,19 +27,35 @@ const Upperbody = styled.div`
 `
 
 const UpperbodySubtitle = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+display: grid;
+grid-template-columns: 1fr 1fr;
+
+h4 {
+    margin: 5px 1px;
+}
+
+p {
+    margin: 5px 2px;
+}
 `
 
 const UpperbodyCard = styled.div`
-    background: lightgrey;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+background: lightgrey;
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+grid-row-gap: 10px;
+h4 {
+    margin: 10px 1px;
+}
+
+p {
+    margin: 5px 2px;
+}
 `
 
 const Lowerbody = styled.div`
     margin: 0 auto;
-    max-width: 90vw;
+    max-width: 100vw;
 
 `
 const LowerbodyHorizontalButtons = styled.div`
@@ -89,15 +108,15 @@ function BuyOptionsPage({data, isMobile, myData, ...props}:{props:Object, isMobi
 
     return <Container>
         <Breadcrumbs>
-           <h1>
-           <StyledLink to="/marked">Marked</StyledLink> &nbsp;
+           <h2>
+           <StyledLink to="/marked">Market</StyledLink> &nbsp;
            {<img src={RightArrowVector} alt="RightArrowIcon" />}
            &nbsp;
            <StyledLink to={`/marked/${abbreviation}`}>{abbreviation}</StyledLink> &nbsp;
            {<img src={RightArrowVector} alt="RightArrowIcon" />}
            &nbsp;
            Buy option
-           </h1>
+           </h2>
        </Breadcrumbs>
        <Upperbody>
        <h1>{currentThing.name}</h1>
@@ -112,12 +131,12 @@ function BuyOptionsPage({data, isMobile, myData, ...props}:{props:Object, isMobi
            </div>   
        </UpperbodySubtitle>
        <UpperbodyCard>
-           <div><h5>Risk</h5><p>{currentThing.risk}</p></div>
-           <div><h5>Price</h5><p>{currentThing.price}</p></div>
+           <div><h4>Risk</h4><p>{currentThing.risk}</p></div>
+           <div><h4>Price</h4><p>{currentThing.price}</p></div>
            <p></p>
-           <div><h5>1D</h5><p>{currentThing.oneday}</p></div>
-           <div><h5>1W</h5><p>{currentThing.oneweek}</p></div>
-           <div><h5>1Y</h5><p>{currentThing.oneyear}</p></div>
+           <div><h4>1D</h4><p>{currentThing.oneday}</p></div>
+           <div><h4>1W</h4><p>{currentThing.oneweek}</p></div>
+           <div><h4>1Y</h4><p>{currentThing.oneyear}</p></div>
        </UpperbodyCard>
        </Upperbody>
        <Lowerbody>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import logo from './MenuVector.svg';
+import moonIcon from '../../icons/MoonIcon.svg';
 import {
     BrowserRouter as Router,
     Route, Link
@@ -17,13 +17,13 @@ const ContainerDivMobile = styled.div`
 `
 const ContainerDiv = styled.div`
     display:grid;    
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     font-size: 26px;
 `
 
 const StyledLink = styled(Link)`
     text-decoration: none;
-    color: black;
+    color: white;
     &:hover {
         color:red;
     }
@@ -35,9 +35,12 @@ function Navbar({isMobile} : {isMobile:boolean}) {
     <ContainerDivMobile>
         <div className="menu-item"><StyledLink to='/'>Home</StyledLink></div>
         <div className="menu-item"><StyledLink to='/marked'>Market</StyledLink></div>
+        <img src={moonIcon} alt="moonIcon"/>
     </ContainerDivMobile> : <ContainerDiv>
         <div className="menu-item"><StyledLink to='/'>Home</StyledLink></div>
         <div className="menu-item"><StyledLink to='/marked'>Market</StyledLink></div>
+        <div> &nbsp; <img src={moonIcon} alt="moonIcon"/></div>
+       
     </ContainerDiv>
 }
 

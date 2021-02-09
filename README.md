@@ -4,17 +4,54 @@ The goal of the project is to integrate it with an AMM, and use Metamask.
 
 We use cypress.io to do a little end to end testing. Before running it it is important to start create-react-app(by writing npm run start), as it is testing that version. In a live version, we wouldn't need to do that, as we could test directly at the live version. To run cypress, write "npm run cypress:open" in console. This will open a program called cypress where you can click on the test I have created
 
-The focus on this application this far has been mobile first. But I did setup a basic dynamic solution based on mediaqueeries that can be used to make desktop, landscape, etc versions.
+The focus on this application this far has been mobile first, and I spent a long time on a small part. The table on buyoptionspage, that changes between mobile and desktop. But I did setup a basic dynamic solution based on mediaqueeries that can be used to make desktop, landscape, etc versions.
 This can be found under responsive_utilities and the different breakpoints are imported and used as components
 
 As the first stage of the project I designed it in figma, the design can be found here:
 https://www.figma.com/file/DBQzqixQZoIbq8ZsFz7P5t/Ether?node-id=0%3A1
 
+I attempted to add and use MetaMask, Ganache-cli, web3 and a multitude of others, but the documentation made it a little hard
+in the time alotted. I would love to go back in the muture and look more and finish this application or maybe even do it on
+a live application.
+
+Most of the CSS in this project is contained in the individual components. That is intentional, however, there definitly is
+CSS that should be refactored into it's own css files as I reuse it several times. TODO in the future.
+
+TODO:
+The first time I visited your website, and espescially your app, I was really confused as to what everything meant.
+As you said in the first interview, the long term goal is to replace a lot, if not all of the central fintec industry
+with defi. But to do that we would have to get everyone to use it. My goal and plan would then be to make the site more accessible for everyone. Not just through a revamp of the mobile site, but also with more explanations.
+
+
 
 Brief docs can be found under, and a "how to start and use create-react-app can be found at the bottom"
+I divided the files into 3 main folders: 
+
+components, icons and responsive_utilities
+
+With a little more time to refactor I would I changed the components files into more "view components" and "function components"
+TODO in the future
+components:
+
+    blockchain:
+
+    headerComponents: 
+
+    helperComponenents: 
+
+    pages:
 
 
 
+icons: 
+Most of the svg files are in here, unless they are specific enough to be in their own folder. Such as the header svg, which fits
+perfectly in the header subfolder under components.
+
+responsive_utilites:
+I added 3 media queries in the form of components. For mobile, landscape and portrait and one for desktop. 
+
+
+---- The docs ends here -  Information about create-react-app is underneath ----
 
 # Getting Started with Create React App
 

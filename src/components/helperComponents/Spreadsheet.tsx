@@ -1,21 +1,18 @@
 import React, { useState, useEffect} from 'react'
+import {useDispatch } from 'react-redux'
 import _ from 'lodash'
 import { Column, Table, AutoSizer, SortDirection, SortDirectionType} from 'react-virtualized'
-import '../reactVirtualisedStyles.css'
+import './reactVirtualisedStyles.css'
 import Swipe from 'react-easy-swipe';
 import styled from 'styled-components'
-import MobileOnIcon from './clarity_mobile-phone-solid.svg'
-import MobileOffIcon from './DesktopIcon.svg'
+import LeftArrowVector from '../../icons/LeftArrowVector.svg'
+import RightArrowVector from '../../icons/RightArrowThickerVector.svg'
+import MobileOnIcon from '../../icons/clarity_mobile-phone-solid.svg'
+import MobileOffIcon from '../../icons/DesktopIcon.svg'
 import {
     BrowserRouter as Router,
     Route, Link
   } from 'react-router-dom'
-interface BaseCSSProperties {
-    /*
-     * Used to control if the rule-set should be affected by rtl transformation
-     */
-    flip?: boolean;
-  }
 
 
 const customStyles = {
@@ -37,27 +34,28 @@ const customStyles = {
   
   const StyledContainer = styled.div`
     width:100%;
-    max-width: 100%;
+    max-width: 100vw;
+    text-align:center;
+    
   `
   
   const StyledViewImg = styled.img`
     padding:8px;
-    position: fixed;
     right: 16px;
     top: 20px;
     z-index:1000;
   `
   
   const StyledNavigationButtonRight = styled.img`
-    position:fixed;
-    right:0;
-    margin-top:50%;
+    position:absolute;
+    right:0px;
+    bottom:-200px;
     z-index:1000;
   `
   const StyledNavigationButtonLeft = styled.img`
-    position:fixed;
-    left:0;
-    margin-top:50%;
+    position:absolute;
+    left:0px;
+    bottom:-200px;
     z-index:1000;
   `
   
@@ -73,7 +71,6 @@ const customStyles = {
   
   const  TableView = ({isMobile, scrollToValue, list, scrollTo, uniqueValues} : 
     {isMobile:boolean, list:any, scrollToValue:number, scrollTo: any, uniqueValues:any}) => {
-        console.log('list', list)
     const [sortBy, setSortBy] = useState('strike')
     const [sortDirection, setSortDirection] = useState('ASC')
     const [sortedList, setSortedList] = useState(list)
@@ -81,10 +78,12 @@ const customStyles = {
     const [prevColumn, setPrevColumn] = useState(0)
     const [mobileView, setMobileView] = useState(isMobile)
     const [allColumns, setAllColumns] = useState(uniqueValues)
+    const dispatch = useDispatch()
   
     const StyledTable = styled.div`
     display:relative;
-    padding-top: ${isMobile ? '20px' : '0'}
+    padding-top: ${isMobile ? '20px' : '0'};
+    
   `
   
     const headerStyle = {
@@ -123,13 +122,11 @@ const customStyles = {
       
     }, [list, sortBy])
 
-    console.log('list2', activeColumn, sortedList)
   
     /* A function that changes the style for the rendered rows, so that every other column
     is white and every other is another colour */
     const rowStyle = (e:any) => {
-        console.log('e',e)
-      return {height: '50px',background: e.index%2===0 ? '#0073be' : '#fff5f2', }
+      return {height: '50px',background: e.index%2===0 ? '#C3DFEA' : '#fff5f2', }
     }
   
     //Variables that changes during scrolling 
@@ -238,8 +235,8 @@ const customStyles = {
           mobileView ? 
             <div>
               <StyledNavigationButtonRight onClick={() => 
-                swipeColumn('right')} width="30px" height="30px" src={MobileOnIcon}/>
-              <StyledNavigationButtonLeft onClick={() => swipeColumn('left')} width="30px" height="30px" src={MobileOffIcon}/>
+                swipeColumn('right')} width="30px" height="30px" src={RightArrowVector}/>
+              <StyledNavigationButtonLeft onClick={() => swipeColumn('left')} width="30px" height="30px" src={LeftArrowVector}/>
               <select id='selectBox' onChange={(e) => selectedColumn(e)}>
                 {/* <option value='daily'>Aktive Alarmer</option> */}
                 {console.log('unique', uniqueValues)}
@@ -266,6 +263,7 @@ const customStyles = {
             sort={(e:any) => sort(e)}
             sortBy={sortBy}
             rowStyle={(e:any) => rowStyle(e)}
+            onRowClick={(e) => dispatch({type:'NEW_PAGE', data:{valueType:'page', id:e.rowData}})}
             //scroll and swipe, makes sure to remember the scroll position on swipe left or right
             onScroll={(e: { scrollTop: number; }) => {
                 if(e.scrollTop === scrollToValue) {
@@ -311,8 +309,10 @@ const customStyles = {
               headerHeight={70}
               rowHeight={50}
               rowCount={sortedList.length}
+              rowStyle={(e:any) => rowStyle(e)}
               rowGetter={({ index } : {index:number}) => sortedList[index]}
               headerStyle={headerStyle}
+              onRowClick={(e) => dispatch({type:'NEW_PAGE', data:{valueType:'page', id:e.rowData}})}
               sort={(e: { sortBy: any; sortDirection:String; }) => sort(e)}
               >
                 {uniqueValues.map((i: any) => 
@@ -332,18 +332,20 @@ const customStyles = {
             <StyledTable>
               <Table
               width={width}
-              height={820}
+              height={320}
               headerHeight={70}
               rowHeight={50}
+              rowStyle={(e:any) => rowStyle(e)}
               rowCount={sortedList.length}
               rowGetter={({ index } : {index:number}) => sortedList[index]}
               headerStyle={headerStyle}
+              onRowClick={(e) => dispatch({type:'NEW_PAGE', data:{valueType:'page', id:e.rowData}})}
               sort={(e: any) => sort(e)}
               >
                 {uniqueValues.map((i: any) => 
                 <Column label={i}
                 dataKey={i}
-                width={(window.screen.width/uniqueValues.length)}
+                width={(width/uniqueValues.length)}
                 />)}
             </Table>
           </StyledTable>

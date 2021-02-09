@@ -2,11 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 import reportWebVitals from './reportWebVitals';
+
+import currentPageReducer from './components/reducers/currentPageReducer'
+/* TODO use less any - spend more time */
+const store = createStore(currentPageReducer as any)
 
 ReactDOM.render(
   <React.StrictMode>
+    <Provider store={store}>
     <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

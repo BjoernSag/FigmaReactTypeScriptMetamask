@@ -3,11 +3,12 @@ import DesktopBreakpoint from './responsive_utilities/desktop_breakpoint';
 import LandscapeBreakpoint from './responsive_utilities/landscape_breakpoint';
 import PhoneBreakpoint from './responsive_utilities/phone_breakpoint';
 import Header from './components/headerComponents/Header'
-import Frontpage from './components/Frontpage'
-import Marked from './components/Marked'
-import MarkedItem from './components/MarkedItem'
-import BuyOptionPage from './components/BuyOptionsPage'
-import BuyPage from './components/BuyPage'
+import Frontpage from './components/pages/Frontpage'
+import Marked from './components/pages/Market'
+import MarkedItem from './components/pages/MarketItem'
+import BuyOptionPage from './components/pages/BuyOptionsPage'
+import BuyPage from './components/pages/BuyPage'
+import { useSelector } from 'react-redux'
 import {
   BrowserRouter as Router,
   Route
@@ -43,6 +44,8 @@ abbreviation: 'ETH', profit: '$50.33', profitpercentage: '2%', avgstrike: '$25'}
 const params = ''
 
 const content = (isMobile:boolean) => {
+
+   
   return <Router>
       <div>
         <Route exact path="/" render={() => <div>
@@ -66,6 +69,8 @@ const content = (isMobile:boolean) => {
 
 }
 function App() {
+  /*Gets the current page from redux and saves it to infoOnPage */
+  let page = useSelector((state:any) => state.page)
   
     return <div>
       <PhoneBreakpoint>{content(true)}</PhoneBreakpoint>
