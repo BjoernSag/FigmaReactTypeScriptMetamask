@@ -11,16 +11,14 @@ As the first stage of the project I designed it in figma, the design can be foun
 https://www.figma.com/file/DBQzqixQZoIbq8ZsFz7P5t/Ether?node-id=0%3A1
 
 I attempted to add and use MetaMask, Ganache-cli, web3 and a multitude of others, but the documentation made it a little hard
-in the time alotted. I would love to go back in the muture and look more and finish this application or maybe even do it on
+in the time alotted. I would love to go back in the future and look more and finish this application or maybe even do it on
 a live application.
 
 Most of the CSS in this project is contained in the individual components. That is intentional, however, there definitly is
 CSS that should be refactored into it's own css files as I reuse it several times. TODO in the future.
 
 TODO:
-The first time I visited your website, and espescially your app, I was really confused as to what everything meant.
-As you said in the first interview, the long term goal is to replace a lot, if not all of the central fintec industry
-with defi. But to do that we would have to get everyone to use it. My goal and plan would then be to make the site more accessible for everyone. 
+As I see it, the goal right now is to get more people to use Defi services, and to do that we need to make them accessible.  My goal and plan with this design would then be to make it more accessible for everyone. 
 
 P.S: The moon icon is for a feature night mode feature.
 
